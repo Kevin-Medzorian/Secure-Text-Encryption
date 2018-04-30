@@ -38,6 +38,7 @@ public:
     QPushButton *btnSave;
     QFrame *line;
     QHBoxLayout *LoadGroup;
+    QPushButton *btnClear;
     QComboBox *Selection;
     QPushButton *btnLoad;
     QLineEdit *fieldOut;
@@ -122,6 +123,11 @@ public:
 
         LoadGroup = new QHBoxLayout();
         LoadGroup->setObjectName(QStringLiteral("LoadGroup"));
+        btnClear = new QPushButton(verticalLayoutWidget_2);
+        btnClear->setObjectName(QStringLiteral("btnClear"));
+
+        LoadGroup->addWidget(btnClear);
+
         Selection = new QComboBox(verticalLayoutWidget_2);
         Selection->setObjectName(QStringLiteral("Selection"));
         QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -130,6 +136,7 @@ public:
         sizePolicy2.setHeightForWidth(Selection->sizePolicy().hasHeightForWidth());
         Selection->setSizePolicy(sizePolicy2);
         Selection->setFont(font);
+        Selection->setToolTipDuration(-1);
         Selection->setMaxVisibleItems(10);
 
         LoadGroup->addWidget(Selection);
@@ -179,6 +186,10 @@ public:
         fieldIn->setPlaceholderText(QApplication::translate("MainWindow", "[Secret Message]", 0));
         fieldTitle->setPlaceholderText(QApplication::translate("MainWindow", "[Message Title]", 0));
         btnSave->setText(QApplication::translate("MainWindow", "Save/Encrypt", 0));
+        btnClear->setText(QApplication::translate("MainWindow", "Wipe Storage", 0));
+#ifndef QT_NO_TOOLTIP
+        Selection->setToolTip(QApplication::translate("MainWindow", "Select a message to decrypt.", 0));
+#endif // QT_NO_TOOLTIP
         Selection->setCurrentText(QString());
         btnLoad->setText(QApplication::translate("MainWindow", "Load/Decrypt", 0));
         fieldOut->setPlaceholderText(QApplication::translate("MainWindow", "[Decrypted Message]", 0));

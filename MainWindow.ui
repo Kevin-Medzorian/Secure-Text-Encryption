@@ -171,6 +171,16 @@
     <item>
      <layout class="QHBoxLayout" name="LoadGroup">
       <item>
+       <widget class="QPushButton" name="btnClear">
+        <property name="toolTip">
+         <string>Wipe &amp; delete the storage.dat</string>
+        </property>
+        <property name="text">
+         <string>Wipe Storage</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QComboBox" name="Selection">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -185,6 +195,12 @@
           <italic>true</italic>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="toolTip">
+         <string>Select a message to decrypt.</string>
+        </property>
+        <property name="toolTipDuration">
+         <number>-1</number>
         </property>
         <property name="currentText">
          <string/>

@@ -20,6 +20,7 @@ private slots:
     void Save();
     void TextEdited();
     void Load();
+    void Wipe();
 private:
     Ui::MainWindow widget;
 };

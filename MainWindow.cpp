@@ -22,6 +22,8 @@ MainWindow::MainWindow() {
 
     connect(widget.btnSave, &QPushButton::released, this, &MainWindow::Save);
     connect(widget.btnLoad, &QPushButton::released, this, &MainWindow::Load);
+    connect(widget.btnClear, &QPushButton::released, this, &MainWindow::Wipe);
+
 
     connect(widget.fieldKey, &QLineEdit::textEdited, this, &MainWindow::TextEdited);
     connect(widget.fieldIn, &QLineEdit::textEdited, this, &MainWindow::TextEdited);
@@ -68,10 +70,25 @@ void MainWindow::Load() {
     }
 }
 
+void MainWindow::Wipe(){
+    remove("storage.dat");
+    encrypted.clear();
+    widget.Selection->clear();
+    widget.fieldOut->clear();
+}
+
+bool fileExists(const char *fileName){
+    ifstream infile(fileName);
+    return infile.good();
+}
+
 void MainWindow::WriteToFile(string title, string encryptedText) {
+    
+    string newline = fileExists("storage.dat") ? "\n" : "";
+    
     ofstream storage("storage.dat",  std::ios_base::app);
 
-    storage << endl << title << endl << encryptedText;
+    storage << newline << title << endl << encryptedText;
 
     storage.close();
     
