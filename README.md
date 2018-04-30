@@ -5,3 +5,5 @@ method with a user-provided key. It is made using the Netbeans IDE and
 C++.
 
 The GUI is provided by the streamlined Qt user-interface.
+
+The SHA256 hashing algorithm is provided by the Pico github repository.
