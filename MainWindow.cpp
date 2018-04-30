@@ -6,6 +6,7 @@
  */
 
 #include "MainWindow.h"
+#include "picosha2.h"
 
 #include <QCoreApplication>
 #include <fstream>
@@ -39,10 +40,11 @@ MainWindow::~MainWindow() {
 
 void MainWindow::Save() {
     string raw = widget.fieldIn->text().toStdString(),
-            key = widget.fieldKey->text().toUpper().toStdString(),
+            key = picosha2::hash256_hex_string(widget.fieldKey->text().toUpper().toStdString()),
             title = widget.fieldTitle->text().toStdString(),
             encrypted = raw;
 
+    
     for (int i = 0, k = key.length() / 2; (unsigned) i < raw.length(); i++) {
         encrypted[i] = raw[i] ^ key[--k] + k - i;
 
@@ -57,7 +59,7 @@ void MainWindow::Load() {
     if ((unsigned) widget.Selection->currentIndex() < encrypted.size()) {
         
         string raw = encrypted[widget.Selection->currentIndex()],
-                key = widget.fieldKey->text().toUpper().toStdString(),
+                key = picosha2::hash256_hex_string(widget.fieldKey->text().toUpper().toStdString()),
                 decrypted = raw;
 
         for (int i = 0, k = key.length() / 2; (unsigned) i < raw.length(); i++) {

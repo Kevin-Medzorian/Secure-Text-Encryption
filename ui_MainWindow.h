@@ -186,6 +186,9 @@ public:
         fieldIn->setPlaceholderText(QApplication::translate("MainWindow", "[Secret Message]", 0));
         fieldTitle->setPlaceholderText(QApplication::translate("MainWindow", "[Message Title]", 0));
         btnSave->setText(QApplication::translate("MainWindow", "Save/Encrypt", 0));
+#ifndef QT_NO_TOOLTIP
+        btnClear->setToolTip(QApplication::translate("MainWindow", "Wipe & delete the storage.dat", 0));
+#endif // QT_NO_TOOLTIP
         btnClear->setText(QApplication::translate("MainWindow", "Wipe Storage", 0));
 #ifndef QT_NO_TOOLTIP
         Selection->setToolTip(QApplication::translate("MainWindow", "Select a message to decrypt.", 0));
