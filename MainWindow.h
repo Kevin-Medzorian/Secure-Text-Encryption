@@ -16,6 +16,9 @@ public:
     virtual ~MainWindow();
     void UpdateData();
     void WriteToFile(std::string, std::string);
+    void RemoveTitle(std::string);
+    std::string GetRaw(std::string);
+    std::string asString(int);
 private slots:
     void Save();
     void TextEdited();
