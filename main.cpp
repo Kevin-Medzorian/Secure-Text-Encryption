@@ -14,6 +14,6 @@ int main(int argc, char *argv[]) {
     MainWindow mw;
     
     mw.show();
-
+    mw.setFixedSize(mw.size());
     return app.exec();
 }

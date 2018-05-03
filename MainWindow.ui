@@ -7,8 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>802</width>
-    <height>333</height>
+    <height>337</height>
    </rect>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::DefaultContextMenu</enum>
   </property>
   <property name="windowTitle">
    <string>Text Encrypter</string>
@@ -25,9 +28,9 @@
    <property name="font">
     <font>
      <family>Courier 10 Pitch</family>
-     <weight>75</weight>
-     <italic>true</italic>
-     <bold>true</bold>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
    </property>
    <layout class="QVBoxLayout" name="MainLayout">
@@ -36,9 +39,9 @@
       <property name="font">
        <font>
         <family>Courier 10 Pitch</family>
-        <weight>75</weight>
-        <italic>true</italic>
-        <bold>true</bold>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
        </font>
       </property>
       <property name="statusTip">
@@ -68,9 +71,9 @@
         <property name="font">
          <font>
           <family>Courier 10 Pitch</family>
-          <weight>75</weight>
-          <italic>true</italic>
-          <bold>true</bold>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="placeholderText">
@@ -108,10 +111,13 @@
         <property name="font">
          <font>
           <family>Courier 10 Pitch</family>
-          <weight>75</weight>
-          <italic>true</italic>
-          <bold>true</bold>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
+        </property>
+        <property name="inputMethodHints">
+         <set>Qt::ImhNone</set>
         </property>
         <property name="placeholderText">
          <string>[Message Title]</string>
@@ -132,9 +138,9 @@
         <property name="font">
          <font>
           <family>Courier 10 Pitch</family>
-          <weight>75</weight>
-          <italic>true</italic>
-          <bold>true</bold>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="text">
@@ -149,9 +155,9 @@
       <property name="font">
        <font>
         <family>Courier 10 Pitch</family>
-        <weight>75</weight>
-        <italic>true</italic>
-        <bold>true</bold>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
        </font>
       </property>
       <property name="frameShadow">
@@ -172,11 +178,18 @@
      <layout class="QHBoxLayout" name="LoadGroup">
       <item>
        <widget class="QPushButton" name="btnClear">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
         <property name="toolTip">
          <string>Wipe &amp; delete the storage.dat</string>
         </property>
         <property name="text">
-         <string>Wipe Storage</string>
+         <string>Remove</string>
         </property>
        </widget>
       </item>
@@ -191,9 +204,9 @@
         <property name="font">
          <font>
           <family>Courier 10 Pitch</family>
-          <weight>75</weight>
-          <italic>true</italic>
-          <bold>true</bold>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="toolTip">
@@ -218,9 +231,9 @@
         <property name="font">
          <font>
           <family>Courier 10 Pitch</family>
-          <weight>75</weight>
-          <italic>true</italic>
-          <bold>true</bold>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
          </font>
         </property>
         <property name="text">
@@ -234,34 +247,58 @@
      </layout>
     </item>
     <item>
-     <widget class="QLineEdit" name="fieldOut">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="font">
-       <font>
-        <family>Courier 10 Pitch</family>
-        <weight>75</weight>
-        <italic>true</italic>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="acceptDrops">
-       <bool>true</bool>
-      </property>
-      <property name="frame">
-       <bool>true</bool>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="placeholderText">
-       <string>[Decrypted Message]</string>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="OutputGroup">
+      <item>
+       <widget class="QPushButton" name="btnToggle">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string> Show </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="fieldOut">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="font">
+         <font>
+          <family>Courier 10 Pitch</family>
+          <weight>50</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::StrongFocus</enum>
+        </property>
+        <property name="acceptDrops">
+         <bool>true</bool>
+        </property>
+        <property name="frame">
+         <bool>true</bool>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+        <property name="placeholderText">
+         <string>[Decrypted Message]</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -273,7 +310,6 @@
   <tabstop>btnSave</tabstop>
   <tabstop>Selection</tabstop>
   <tabstop>btnLoad</tabstop>
-  <tabstop>fieldOut</tabstop>
  </tabstops>
  <resources/>
  <connections/>

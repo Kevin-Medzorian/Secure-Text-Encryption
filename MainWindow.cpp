@@ -9,6 +9,7 @@
 #include "picosha2.h"
 
 #include <QCoreApplication>
+#include <QMouseEvent>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -20,25 +21,30 @@ vector<string> encrypted;
 void WriteToFile(string, string);
 void UpdateData();
 void RemoveTitle(string);
+void Toggle();
 string GetRaw(string);
 string asString(int);
 
 MainWindow::MainWindow() {
     widget.setupUi(this);
-
+  
     //Register UI Elements to their respective functions
     connect(widget.btnSave, &QPushButton::released, this, &MainWindow::Save);
     connect(widget.btnLoad, &QPushButton::released, this, &MainWindow::Load);
     connect(widget.btnClear, &QPushButton::released, this, &MainWindow::Wipe);
-    
+    connect(widget.btnToggle, &QPushButton::released, this, &MainWindow::Toggle);
+
     connect(widget.fieldKey, &QLineEdit::textEdited, this, &MainWindow::TextEdited);
     connect(widget.fieldIn, &QLineEdit::textEdited, this, &MainWindow::TextEdited);
     connect(widget.fieldTitle, &QLineEdit::textEdited, this, &MainWindow::TextEdited);
 
+    setMouseTracking(true);
     //Run initial data parsing from storage.dat
     UpdateData();
 
     widget.line->setFocus();
+    widget.fieldTitle->setValidator(new QRegExpValidator(QRegExp("[A-Za-z0-9_ ]+"), this));
+
 }
 
 MainWindow::~MainWindow() {
@@ -57,7 +63,7 @@ void MainWindow::Save() {
 
         k = k == 0 ? key.length() : k;
     }
-    
+
     widget.fieldIn->clear();
     widget.fieldTitle->clear();
 
@@ -67,8 +73,6 @@ void MainWindow::Save() {
 
 void MainWindow::Load() {
     //Read data from storage.dat and decrypt
-    int pos = widget.Selection->currentIndex();
-
 
     string title = widget.Selection->currentText().toStdString(),
             raw = GetRaw(title),
@@ -86,16 +90,15 @@ void MainWindow::Load() {
 }
 
 void MainWindow::Wipe() {
-    //Wipes data and deletes storage.dat
+    remove((widget.Selection->currentText().toStdString() + ".crypt").data());
+    RemoveTitle(widget.Selection->currentText().toStdString());
+    widget.Selection->removeItem(widget.Selection->currentIndex());
 
-    for (int i = 0; i < widget.Selection->count(); i++) {
-        remove((widget.Selection->itemText(i).toStdString() + ".crypt").data());
+    if (widget.Selection->count() == 0) {
+        widget.btnLoad->setEnabled(false);
+        widget.btnClear->setEnabled(false);
     }
     
-    remove("TextEncrypter.dat");
-
-    widget.Selection->clear();
-    widget.fieldOut->clear();
 }
 
 bool fileExists(const char *fileName) {
@@ -106,8 +109,8 @@ bool fileExists(const char *fileName) {
 void MainWindow::WriteToFile(string title, string encryptedText) {
 
     //Add to Titles located in TextEncrypter.dat
-    ofstream titles("TextEncrypter.dat", std::ios_base::app);
-    
+    ofstream titles("titles.dat", std::ios_base::app);
+
     titles << title << endl;
 
     titles.close();
@@ -118,7 +121,7 @@ void MainWindow::WriteToFile(string title, string encryptedText) {
     storage << encryptedText;
 
     storage.close();
-    
+
     widget.btnLoad->setEnabled(true);
 
     UpdateData();
@@ -126,74 +129,72 @@ void MainWindow::WriteToFile(string title, string encryptedText) {
 
 string MainWindow::GetRaw(string title) {
     ifstream raw((title + ".crypt").data());
-    
+
     string out((std::istreambuf_iterator<char>(raw)),
-                 std::istreambuf_iterator<char>());
+            std::istreambuf_iterator<char>());
 
     if (out.empty()) {
         remove((title + ".crypt").data());
         widget.Selection->removeItem(widget.Selection->currentIndex());
         RemoveTitle(title);
+
+        if (widget.Selection->count() == 0) {
+            widget.btnLoad->setEnabled(false);
+            widget.btnClear->setEnabled(false);
+        }
         return "-1";
     }
 
     return out;
 }
 
-/*
- * Deprecated Function
-void MainWindow::WriteToFile(string title, string encryptedText) {
-    
-    bool exists = fileExists(title << ".crypt");
-
-    ofstream storage("storage.dat",  std::ios_base::app);
-    
-    storage.clear();
-    
-    if(exists)
-        storage << endl;    
-   
-    storage << title << endl << encryptedText << endl;
-
-    storage.close();
-    
-    UpdateData();
-}
- */
 void MainWindow::UpdateData() {
 
+    widget.btnClear->setEnabled(false);
     //Refreshes UI elements with data in storage.dat
     widget.Selection->clear();
 
-    ifstream storage("TextEncrypter.dat");
+    ifstream storage("titles.dat");
     string title;
 
     while (getline(storage, title)) {
-        if(widget.Selection->findText(QString::fromStdString(title)) < 0)
+        if (widget.Selection->findText(QString::fromStdString(title)) < 0) {
             widget.Selection->addItem(QString::fromStdString(title));
+            widget.btnClear->setEnabled(true);
+        }
     }
 
     storage.close();
 }
 
-void MainWindow::RemoveTitle(string title){
-    ifstream read ("TextEncrypter.dat");
-    
+void MainWindow::RemoveTitle(string title) {
+    ifstream read("titles.dat");
+
     string titles = "";
-    
+
     string line = "";
-    while(getline(read, line)){
-        if(line != title)
+    while (getline(read, line)) {
+        if (line != title)
             titles += line + "\n";
     }
-    
+
     read.close();
-    
-    ofstream write ("TextEncrypter.dat", std::ios_base::trunc);
-        
+
+    ofstream write("titles.dat", std::ios_base::trunc);
+
     write << titles;
-    
+
     write.close();
+}
+
+void MainWindow::Toggle() {
+    if (widget.fieldOut->echoMode() == QLineEdit::Password) {
+        widget.fieldOut->setEchoMode(QLineEdit::Normal);
+        widget.btnToggle->setText(" Hide ");
+    } else {
+        widget.fieldOut->setEchoMode(QLineEdit::Password);
+        widget.btnToggle->setText(" Show ");
+    }
 }
 
 void MainWindow::TextEdited() {

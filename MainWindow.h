@@ -24,6 +24,7 @@ private slots:
     void TextEdited();
     void Load();
     void Wipe();
+    void Toggle();
 private:
     Ui::MainWindow widget;
 };

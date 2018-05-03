@@ -41,21 +41,24 @@ public:
     QPushButton *btnClear;
     QComboBox *Selection;
     QPushButton *btnLoad;
+    QHBoxLayout *OutputGroup;
+    QPushButton *btnToggle;
     QLineEdit *fieldOut;
 
     void setupUi(QDialog *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(802, 333);
+        MainWindow->resize(802, 337);
+        MainWindow->setContextMenuPolicy(Qt::DefaultContextMenu);
         verticalLayoutWidget_2 = new QWidget(MainWindow);
         verticalLayoutWidget_2->setObjectName(QStringLiteral("verticalLayoutWidget_2"));
         verticalLayoutWidget_2->setGeometry(QRect(10, 13, 778, 311));
         QFont font;
         font.setFamily(QStringLiteral("Courier 10 Pitch"));
-        font.setBold(true);
-        font.setItalic(true);
-        font.setWeight(75);
+        font.setBold(false);
+        font.setItalic(false);
+        font.setWeight(50);
         verticalLayoutWidget_2->setFont(font);
         MainLayout = new QVBoxLayout(verticalLayoutWidget_2);
         MainLayout->setObjectName(QStringLiteral("MainLayout"));
@@ -93,6 +96,7 @@ public:
         fieldTitle->setMinimumSize(QSize(0, 0));
         fieldTitle->setMaximumSize(QSize(16777215, 16777215));
         fieldTitle->setFont(font);
+        fieldTitle->setInputMethodHints(Qt::ImhNone);
 
         TitleGroup->addWidget(fieldTitle);
 
@@ -125,6 +129,11 @@ public:
         LoadGroup->setObjectName(QStringLiteral("LoadGroup"));
         btnClear = new QPushButton(verticalLayoutWidget_2);
         btnClear->setObjectName(QStringLiteral("btnClear"));
+        QFont font1;
+        font1.setBold(false);
+        font1.setItalic(false);
+        font1.setWeight(50);
+        btnClear->setFont(font1);
 
         LoadGroup->addWidget(btnClear);
 
@@ -152,23 +161,35 @@ public:
 
         MainLayout->addLayout(LoadGroup);
 
+        OutputGroup = new QHBoxLayout();
+        OutputGroup->setObjectName(QStringLiteral("OutputGroup"));
+        btnToggle = new QPushButton(verticalLayoutWidget_2);
+        btnToggle->setObjectName(QStringLiteral("btnToggle"));
+        btnToggle->setFont(font1);
+
+        OutputGroup->addWidget(btnToggle);
+
         fieldOut = new QLineEdit(verticalLayoutWidget_2);
         fieldOut->setObjectName(QStringLiteral("fieldOut"));
         fieldOut->setEnabled(true);
         fieldOut->setFont(font);
+        fieldOut->setFocusPolicy(Qt::StrongFocus);
         fieldOut->setAcceptDrops(true);
         fieldOut->setFrame(true);
+        fieldOut->setEchoMode(QLineEdit::Password);
         fieldOut->setAlignment(Qt::AlignCenter);
-        fieldOut->setReadOnly(true);
+        fieldOut->setReadOnly(false);
 
-        MainLayout->addWidget(fieldOut);
+        OutputGroup->addWidget(fieldOut);
+
+
+        MainLayout->addLayout(OutputGroup);
 
         QWidget::setTabOrder(fieldKey, fieldIn);
         QWidget::setTabOrder(fieldIn, fieldTitle);
         QWidget::setTabOrder(fieldTitle, btnSave);
         QWidget::setTabOrder(btnSave, Selection);
         QWidget::setTabOrder(Selection, btnLoad);
-        QWidget::setTabOrder(btnLoad, fieldOut);
 
         retranslateUi(MainWindow);
 
@@ -189,12 +210,13 @@ public:
 #ifndef QT_NO_TOOLTIP
         btnClear->setToolTip(QApplication::translate("MainWindow", "Wipe & delete the storage.dat", 0));
 #endif // QT_NO_TOOLTIP
-        btnClear->setText(QApplication::translate("MainWindow", "Wipe Storage", 0));
+        btnClear->setText(QApplication::translate("MainWindow", "Remove", 0));
 #ifndef QT_NO_TOOLTIP
         Selection->setToolTip(QApplication::translate("MainWindow", "Select a message to decrypt.", 0));
 #endif // QT_NO_TOOLTIP
         Selection->setCurrentText(QString());
         btnLoad->setText(QApplication::translate("MainWindow", "Load/Decrypt", 0));
+        btnToggle->setText(QApplication::translate("MainWindow", " Show ", 0));
         fieldOut->setPlaceholderText(QApplication::translate("MainWindow", "[Decrypted Message]", 0));
     } // retranslateUi
 
