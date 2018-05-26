@@ -31,6 +31,7 @@ public:
     QWidget *verticalLayoutWidget_2;
     QVBoxLayout *MainLayout;
     QLineEdit *fieldKey;
+    QFrame *line2;
     QHBoxLayout *TextGroup;
     QLineEdit *fieldIn;
     QHBoxLayout *TitleGroup;
@@ -49,7 +50,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(802, 337);
+        MainWindow->resize(802, 332);
         MainWindow->setContextMenuPolicy(Qt::DefaultContextMenu);
         verticalLayoutWidget_2 = new QWidget(MainWindow);
         verticalLayoutWidget_2->setObjectName(QStringLiteral("verticalLayoutWidget_2"));
@@ -71,6 +72,14 @@ public:
         fieldKey->setAlignment(Qt::AlignCenter);
 
         MainLayout->addWidget(fieldKey);
+
+        line2 = new QFrame(verticalLayoutWidget_2);
+        line2->setObjectName(QStringLiteral("line2"));
+        line2->setFrameShadow(QFrame::Plain);
+        line2->setLineWidth(3);
+        line2->setFrameShape(QFrame::HLine);
+
+        MainLayout->addWidget(line2);
 
         TextGroup = new QHBoxLayout();
         TextGroup->setObjectName(QStringLiteral("TextGroup"));
@@ -198,7 +207,7 @@ public:
 
     void retranslateUi(QDialog *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Text Encrypter", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Secure Text Encryption", 0));
 #ifndef QT_NO_STATUSTIP
         fieldKey->setStatusTip(QString());
 #endif // QT_NO_STATUSTIP
